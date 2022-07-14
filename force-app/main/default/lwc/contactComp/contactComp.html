@@ -1,0 +1,21 @@
+<template>
+    <lightning-card  variant="Narrow"  title="Contacts" icon-name="standard:contact">
+        <p>Account ID : {accountId}</p>
+        <p if:true={conList}>Data has been fetched.</p>
+        <p if:false={conList}></p>
+        <template if:true={boolVal}>
+            <template for:each={conList} for:item="conItem">
+                <div class="slds-p-horizontal_small" key = {conItem.Id}>
+                    <p >Name : {conItem.FirstName} {conItem.LastName}</p>
+                    <p>Phone : {conItem.Phone}</p>
+                    <p>Email : {conItem.Email}</p>
+                </div>
+                
+
+            </template>
+        </template>
+        <p if:true={checkNULL}>There is No contact in this Account.</p>
+        <template if:false={boolVal}>Data has not fetched yet. Select an Account to show the Related Contacts..Please Select Any Account!</template>
+        <p>{errorMsg}</p>
+    </lightning-card>
+</template>
