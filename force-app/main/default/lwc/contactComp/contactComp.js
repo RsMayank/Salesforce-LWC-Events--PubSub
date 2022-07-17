@@ -1,6 +1,7 @@
 import { LightningElement,track,api,wire } from 'lwc';
 import {registerListener,unregisterAllListeners} from 'c/pubsub';
 import {CurrentPageReference} from 'lightning/navigation';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import getAccRelatedContacts from '@salesforce/apex/getrelatedContacts.getAccRelatedContacts';
 
 export default class ContactComp extends LightningElement {
@@ -46,7 +47,16 @@ export default class ContactComp extends LightningElement {
             {
                 this.conList = data;
                 this.errorMsg = undefined;
-                this.checkNULL();
+                
+                if(this.conList.length === 0)
+                {
+                    const evt = new ShowToastEvent({
+                        title: 'No Records Found',
+                        message: 'No contact record is associated with this account',
+                        variant: 'Error',
+                    });
+                    this.dispatchEvent(evt);
+                }
             }
             else
             {
